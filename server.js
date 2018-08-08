@@ -5,5 +5,5 @@ const port = process.env.port || 3000;
 const server = http.createServer(app);
 
 server.listen(port,function() {
-    console.log('Restful api successfully started on port ' + port);
+    console.log('RESTful api successfully started on port ' + port);
 });

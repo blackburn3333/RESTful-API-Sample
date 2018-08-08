@@ -3,12 +3,14 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var path = require('path');
 
 //routes of application
 const example_router = require('./api/routes/example_router');
+const index = require('./api/routes/index');
 
 //database connection
-mongoose.connect('Put Connection string here', { useNewUrlParser: true })
+mongoose.connect('mongodb://read_with_us_admin:rwsPassword123@ds213612.mlab.com:13612/read_with_us', { useNewUrlParser: true })
 .then(
     console.log('DB Connection OK')
 );
@@ -28,7 +30,15 @@ app.use((req,res,next)=>{
    next();
 });
 
+//view setup
+//Setting up the views
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+
 //request handling urls
+app.use('/',index);
 app.use('/example',example_router);
 
 app.use((req,res,next)=>{
